@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+prometheus-client
+email-validator
+
+pydantic
+pydantic-settings
+

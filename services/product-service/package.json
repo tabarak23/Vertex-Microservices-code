@@ -1,0 +1,9 @@
+{
+  "name": "product-service",
+  "dependencies": {
+    "express": "^4.19.0",
+    "mysql2": "^3.9.0",
+    "prom-client": "^15.0.0"
+  }
+}
+

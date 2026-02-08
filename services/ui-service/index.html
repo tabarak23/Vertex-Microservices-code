@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Management</title>
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --accent: #22d3ee;
+      --bg-gradient: linear-gradient(135deg, #eef2ff, #f8fafc);
+      --card-bg: rgba(255, 255, 255, 0.75);
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: rgba(255, 255, 255, 0.4);
+      --radius: 16px;
+      --blur: blur(14px);
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 14px;
+    }
+
+    input {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.9);
+      transition: border 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+      transform: translateY(-1px);
+    }
+
+    button {
+      margin-top: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s;
+      box-shadow: 0 12px 25px rgba(79, 70, 229, 0.35);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(79, 70, 229, 0.45);
+      opacity: 0.95;
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(79, 70, 229, 0.4) inset;
+    }
+
+    pre {
+      background: linear-gradient(135deg, #020617, #0f172a);
+      color: #e5e7eb;
+      border-radius: 14px;
+      padding: 18px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      min-height: 140px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.9rem;
+      }
+      .card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>📦 Order Management</h1>
+
+    <div class="card">
+      <h2>📝 Create Order</h2>
+      <div class="form-group">
+        <input id="userId" placeholder="User ID" />
+        <input id="productId" placeholder="Product ID" />
+        <input id="quantity" placeholder="Quantity" />
+        <button onclick="createOrder()">Create Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📂 Orders by User</h2>
+      <div class="form-group">
+        <input id="listUserId" placeholder="User ID" />
+        <button onclick="listOrders()">List Orders</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📤 API Output</h2>
+      <pre id="output">// API responses will appear here</pre>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
