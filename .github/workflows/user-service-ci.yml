@@ -70,23 +70,17 @@ jobs:
       - name: Dependency Vulnerability Scan (Safety)
         run: safety check --full-report
 
-      - name: Run Tests with Coverage
-        run: |
-          pip install pytest pytest-cov
-          pytest --cov=app --cov-report=xml || true
-
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v2
+      - name: Sonarcloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           projectBaseDir: services/user-service
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
             -Dsonar.sources=app
-            -Dsonar.python.coverage.reportPaths=coverage.xml
+           
 
 
   docker:
