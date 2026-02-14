@@ -1,0 +1,155 @@
+name: user-service-ci
+
+on:
+  push:
+    branches: [ "production" ]
+    paths:
+      - "services/user-service/**"
+      - ".github/workflows/user-service-ci.yml"
+  pull_request:
+    branches: [ "production" ]
+    paths:
+      - "services/user-service/**"
+
+concurrency:
+  group: user-service-main
+  cancel-in-progress: true
+
+env:
+  SERVICE_PATH: services/user-service
+  PYTHON_VERSION: "3.10"
+  AWS_REGION: us-west-1
+  ECR_REPOSITORY: user-service
+  SONAR_PROJECT_KEY: user-service
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+jobs:
+  ci:
+    name: lint,test,sast,sonar
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.SERVICE_PATH }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.SERVICE_PATH }}/requirements.txt
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 bandit safety 
+
+      
+      - name: Lint (flake8)
+        run: flake8 app
+
+      - name: Static Analysis (Bandit)
+        run: bandit -r app -ll
+
+      - name: Dependency Vulnerability Scan (Safety)
+        run: safety check --full-report
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.sources=app
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+
+
+  docker:
+    name: Build • Scan • SBOM • Push ECR
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set Image URI
+        id: image
+        run: |
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          IMAGE_URI=$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          echo "image_uri=$IMAGE_URI" >> $GITHUB_OUTPUT
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+   
+      - name: Build Image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: services/user-service
+          load: true
+          tags: user-service:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          sbom: true
+          provenance: true
+
+   
+      - name: Trivy Scan (Fail on HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@v0.24.0
+        with:
+          image-ref: user-service:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+      - name: Trivy SARIF Report
+        uses: aquasecurity/trivy-action@v0.24.0
+        with:
+          image-ref: user-service:${{ github.sha }}
+          format: sarif
+          output: trivy-results.sarif
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+
+
+      - name: Tag Image for ECR
+        run: |
+          docker tag user-service:${{ github.sha }} \
+          ${{ steps.image.outputs.image_uri }}
+
+      - name: Push to ECR
+        run: |
+          docker push ${{ steps.image.outputs.image_uri }}
+
+      - name: Tag Latest
+        run: |
+          docker tag user-service:${{ github.sha }} \
+          ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+          docker push \
+          ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
