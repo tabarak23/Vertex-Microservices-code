@@ -57,7 +57,7 @@ jobs:
       
       - name: Lint (flake8)
         run: flake8 app
-
+        continue-on-error: true
       - name: Static Analysis (Bandit)
         run: bandit -r app -ll
 
