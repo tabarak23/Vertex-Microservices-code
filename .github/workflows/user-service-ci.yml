@@ -21,6 +21,8 @@ env:
   AWS_REGION: us-west-1
   ECR_REPOSITORY: user-service
   SONAR_PROJECT_KEY: user-service
+  SONAR_ORGANIZATION: production-devops
+
 
 permissions:
   contents: read
@@ -72,6 +74,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=production-devops
             -Dsonar.sources=app
             -Dsonar.python.coverage.reportPaths=coverage.xml
 
