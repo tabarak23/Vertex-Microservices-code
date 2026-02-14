@@ -28,8 +28,10 @@ ENV PATH="/opt/venv/bin:$PATH"
 # copy dependency file first cacging
 COPY requirements.txt .
 
-RUN pip install --upgrade pip setuptools wheel \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip freeze
+
 
 
 
