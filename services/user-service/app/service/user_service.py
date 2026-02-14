@@ -39,4 +39,3 @@ class UserService:
             )
 
         UserRepository.deactivate(user_id)
-

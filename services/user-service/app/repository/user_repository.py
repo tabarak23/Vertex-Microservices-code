@@ -71,4 +71,3 @@ class UserRepository:
             )
         finally:
             db.close()
-

@@ -1,6 +1,9 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
+
+
     ENVIRONMENT: str = "local"   # ✅ default
     USER_DB_URL: str
 
@@ -10,4 +13,3 @@ class Settings(BaseSettings):
     )
 
 settings = Settings()
-

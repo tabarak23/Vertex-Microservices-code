@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from app.api.v1.user_controller import router
 from app.core.metrics import setup_metrics
-from app.core.config import settings
 import app.core.logging
 
 from app.db.init_db import init_db  # 👈 ADD THIS
@@ -22,4 +21,3 @@ def on_startup():
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
