@@ -20,7 +20,7 @@ env:
   PYTHON_VERSION: "3.10"
   AWS_REGION: us-west-1
   ECR_REPOSITORY: user-service
-  SONAR_PROJECT_KEY: Vertex-Microservices-code
+  SONAR_PROJECT_KEY: tabarak23_Vertex-Microservices-code
 
 
 
@@ -70,17 +70,18 @@ jobs:
       - name: Dependency Vulnerability Scan (Safety)
         run: safety check --full-report
 
-      - name: Sonarcloud Scan
+      - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: services/user-service
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
             -Dsonar.sources=app
-           
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+
 
 
   docker:
