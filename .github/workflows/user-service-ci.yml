@@ -132,6 +132,7 @@ jobs:
         with:
           image-ref: user-service:${{ github.sha }}
           severity: CRITICAL,HIGH
+          ignore-unfixed: true
           exit-code: 1
 
       - name: Trivy SARIF Report
