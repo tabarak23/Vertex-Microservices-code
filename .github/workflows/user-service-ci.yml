@@ -70,6 +70,11 @@ jobs:
       - name: Dependency Vulnerability Scan (Safety)
         run: safety check --full-report
 
+      - name: Run Tests with Coverage
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov=app --cov-report=xml
+
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2
         env:
