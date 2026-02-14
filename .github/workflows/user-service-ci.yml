@@ -20,7 +20,7 @@ env:
   PYTHON_VERSION: "3.10"
   AWS_REGION: us-west-1
   ECR_REPOSITORY: user-service
-  SONAR_PROJECT_KEY: production-devops123
+  SONAR_PROJECT_KEY: devops-production-project
   SONAR_ORGANIZATION: production-devops
 
 
