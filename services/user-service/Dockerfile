@@ -1,12 +1,25 @@
 #build image
 FROM python:3.10-slim AS base
 
+
+
+
+
 WORKDIR /build
 
+
 # install build deps only if needed
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+
+
+
+
+
 
 # Create virtualenv
 RUN python -m venv /opt/venv
@@ -21,6 +34,11 @@ RUN pip install --upgrade pip \
 
 #runtime image
 FROM python:3.10-slim
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    rm -rf /var/lib/apt/lists/*
+
 
 # Create non-root user
 RUN useradd -m -u 10001 appuser
@@ -43,8 +61,9 @@ COPY app ./app
 
 
 # Install curl only for healthcheck
-RUN apt-get update && apt-get install -y --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # permissions
 RUN chown -R appuser:appuser /runtime /opt/venv
