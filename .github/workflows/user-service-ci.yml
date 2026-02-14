@@ -20,10 +20,12 @@ env:
   PYTHON_VERSION: "3.10"
   AWS_REGION: us-west-1
   ECR_REPOSITORY: user-service
-  SONAR_PROJECT_KEY: production-devops123_tabarak2000
+  SONAR_PROJECT_KEY: Vertex-Microservices-code
 
 
-  SONAR_ORGANIZATION: production-devops
+
+
+  SONAR_ORGANIZATION: tabarak23
 
 
 permissions:
@@ -77,7 +79,7 @@ jobs:
           projectBaseDir: services/user-service
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-            -Dsonar.organization=production-devops
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
             -Dsonar.sources=app
             -Dsonar.python.coverage.reportPaths=coverage.xml
 
