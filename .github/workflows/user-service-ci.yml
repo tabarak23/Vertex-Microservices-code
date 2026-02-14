@@ -20,7 +20,7 @@ env:
   PYTHON_VERSION: "3.10"
   AWS_REGION: us-west-1
   ECR_REPOSITORY: user-service
-  SONAR_PROJECT_KEY: user-service
+  SONAR_PROJECT_KEY: production-devops123
   SONAR_ORGANIZATION: production-devops
 
 
@@ -72,6 +72,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
+          projectBaseDir: services/user-service
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.organization=production-devops
