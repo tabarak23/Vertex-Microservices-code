@@ -1,4 +1,4 @@
-name: order-service-main-ci
+name: order-service-ci
 
 on:
   push:
