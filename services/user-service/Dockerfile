@@ -1,5 +1,5 @@
 #build image
-FROM python:3.10-slim AS base
+FROM python:3.10-slim-bookworm AS base
 
 
 
@@ -24,20 +24,19 @@ RUN apt-get update && \
 # Create virtualenv
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --upgrade pip setuptools wheel
 
 # copy dependency file first cacging
 COPY requirements.txt .
 
-RUN pip install --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip freeze
+RUN pip install --no-cache-dir -r requirements.txt
 
 
 
 
 
 #runtime image
-FROM python:3.10-slim
+FROM python:3.10-slim-bookworm
 
 RUN apt-get update && \
     apt-get upgrade -y && \
