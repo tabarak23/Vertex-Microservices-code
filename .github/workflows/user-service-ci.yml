@@ -133,6 +133,7 @@ jobs:
           severity: CRITICAL,HIGH
           ignore-unfixed: true
           exit-code: 1
+          trivyignores: .trivyignore
 
       - name: Trivy SARIF Report
         uses: aquasecurity/trivy-action@0.20.0
