@@ -1,5 +1,6 @@
 #build image
-FROM node:18-alpine AS base
+FROM node:20-alpine3.21 AS base
+RUN apk update && apk upgrade --no-cache
 
 WORKDIR /build
 
@@ -10,7 +11,8 @@ RUN npm ci
 
 
 #runtime image
-FROM node:18-alpine
+FROM node:20-alpine3.21
+RUN apk update && apk upgrade --no-cache
 
 # create non root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
@@ -19,7 +21,6 @@ WORKDIR /runtime
 
 # copy node_modules
 COPY --from=base /build/node_modules ./node_modules
-
 # copy source
 COPY src ./src
 
