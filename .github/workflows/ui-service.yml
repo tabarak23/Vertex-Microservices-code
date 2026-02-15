@@ -18,7 +18,7 @@ concurrency:
 env:
   SERVICE_PATH: services/ui-service
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: ui-service
+  ECR_REPOSITORY: vertex_ecr
   
 
 permissions:

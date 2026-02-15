@@ -19,7 +19,7 @@ env:
   SERVICE_PATH: services/product-service
   NODE_VERSION: "20"
   AWS_REGION: us-west-1
-  ECR_REPOSITORY: product-service
+  ECR_REPOSITORY: vertex_ecr
   SONAR_PROJECT_KEY: tabarak23_Vertex-Microservices-code
   SONAR_ORGANIZATION: tabarak23
 

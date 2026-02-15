@@ -19,7 +19,7 @@ env:
   SERVICE_PATH: services/user-service
   PYTHON_VERSION: "3.10"
   AWS_REGION: us-west-1
-  ECR_REPOSITORY: user-service
+  ECR_REPOSITORY: vertex_ecr
   SONAR_PROJECT_KEY: tabarak23_Vertex-Microservices-code
 
 
