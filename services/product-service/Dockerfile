@@ -7,7 +7,7 @@ WORKDIR /build
 COPY package.json package-lock.json ./
 
 #production deps only
-RUN npm ci 
+RUN npm audit fix
 
 
 #runtime image
@@ -37,3 +37,4 @@ RUN chown -R appuser:appgroup /runtime
 USER appuser
 
 CMD ["node", "src/server.js"]
+
