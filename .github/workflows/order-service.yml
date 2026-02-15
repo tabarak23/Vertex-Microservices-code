@@ -52,7 +52,8 @@ jobs:
 
       - name: Build & Test
         run: mvn -B clean verify
-
+      - name: Clean Dependency Check Cache
+        run: rm -rf ~/.owasp/dependency-check/data
       - name: OWASP Dependency Check
         run: mvn org.owasp:dependency-check-maven:check
 
