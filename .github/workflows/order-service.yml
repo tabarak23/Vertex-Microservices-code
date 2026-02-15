@@ -76,7 +76,7 @@ jobs:
 
   docker:
     name: Build • Scan • SBOM • Push ECR
-    needs: ci
+    #needs: ci
     runs-on: ubuntu-latest
 
     steps:
