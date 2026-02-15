@@ -5,7 +5,7 @@ on:
     branches: [ "production" ]
     paths:
       - "services/user-service/**"
-      - ".github/workflows/user-service.yml"
+      - ".github/workflows/user-service-ci.yml"
   pull_request:
     branches: [ "production" ]
     paths:
