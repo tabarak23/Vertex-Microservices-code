@@ -1,9 +1,7 @@
 #build image
 FROM node:20-alpine3.21 AS base
 RUN apk update && apk upgrade --no-cache
-RUN rm -rf /usr/local/lib/node_modules/npm \
-    && rm -rf /usr/local/bin/npm \
-    && rm -rf /usr/local/bin/npx
+
 WORKDIR /build
 
 COPY package.json package-lock.json ./
@@ -14,7 +12,9 @@ RUN npm ci
 #runtime image
 FROM node:20-alpine3.21
 RUN apk update && apk upgrade --no-cache
-
+RUN rm -rf /usr/local/lib/node_modules/npm \
+    && rm -f /usr/local/bin/npm \
+    && rm -f /usr/local/bin/npx
 # create non root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
