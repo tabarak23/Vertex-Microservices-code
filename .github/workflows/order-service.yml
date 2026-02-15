@@ -18,10 +18,10 @@ concurrency:
 env:
   SERVICE_PATH: services/order-service
   JAVA_VERSION: "17"
-  AWS_REGION: us-east-1
+  AWS_REGION: us-west-1
   ECR_REPOSITORY: order-service
-  SONAR_PROJECT_KEY: order-service
-
+  SONAR_PROJECT_KEY: tabarak23_Vertex-Microservices-code
+  SONAR_ORGANIZATION: tabarak23
 permissions:
   contents: read
   id-token: write
@@ -59,12 +59,10 @@ jobs:
       - name: Semgrep Scan
         uses: returntocorp/semgrep-action@v1
 
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         with:
+          projectBaseDir: services/order-service
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.sources=src/main/java
