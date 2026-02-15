@@ -17,7 +17,7 @@ concurrency:
 
 env:
   SERVICE_PATH: services/product-service
-  NODE_VERSION: "18"
+  NODE_VERSION: "20"
   AWS_REGION: us-west-1
   ECR_REPOSITORY: product-service
   SONAR_PROJECT_KEY: tabarak23_Vertex-Microservices-code
@@ -51,7 +51,10 @@ jobs:
           cache-dependency-path: ${{ env.SERVICE_PATH }}/package-lock.json
 
       - name: Install Dependencies
-        run: npm audit fix
+        run: npm ci
+
+      - name: NPM Audit
+        run: npm audit --audit-level=high
 
 
       - name: Lint
@@ -60,9 +63,6 @@ jobs:
 
       - name: Run Tests
         run: npm test --if-present
-
-      - name: NPM Audit
-        run: npm audit --audit-level=high
 
       - name: Semgrep Scan
         uses: returntocorp/semgrep-action@v1
