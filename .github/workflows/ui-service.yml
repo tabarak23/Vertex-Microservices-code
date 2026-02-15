@@ -98,7 +98,7 @@ jobs:
           provenance: true
 
       - name: Trivy Scan (Fail on HIGH/CRITICAL)
-        uses: aquasecurity/trivy-action@v0.24.0
+        uses: aquasecurity/trivy-action@0.20.0
         with:
           image-ref: ui-service:${{ github.sha }}
           severity: CRITICAL,HIGH
@@ -106,7 +106,7 @@ jobs:
           trivyignores: .trivyignore
 
       - name: Generate SARIF
-        uses: aquasecurity/trivy-action@v0.24.0
+        uses: aquasecurity/trivy-action@0.20.0
         with:
           image-ref: ui-service:${{ github.sha }}
           format: sarif
