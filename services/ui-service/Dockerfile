@@ -1,4 +1,4 @@
-FROM nginx:1.25-alpine 
+FROM nginx:stable-alpine
 # Remove default nginx config 
 RUN rm /etc/nginx/conf.d/default.conf 
 # Copy custom nginx config 
