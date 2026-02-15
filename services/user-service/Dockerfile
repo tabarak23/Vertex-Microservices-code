@@ -24,7 +24,7 @@ RUN apt-get update && \
 # Create virtualenv
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN pip install --upgrade pip setuptools wheel
+RUN pip install --upgrade pip setuptools "wheel>=0.46.2"
 
 # copy dependency file first cacging
 COPY requirements.txt .
