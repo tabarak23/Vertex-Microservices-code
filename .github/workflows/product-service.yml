@@ -5,7 +5,7 @@ on:
     branches: [ "production" ]
     paths:
       - "services/product-service/**"
-      - ".github/workflows/product-service-ci.yml"
+      - ".github/workflows/product-service.yml"
   pull_request:
     branches: [ "production" ]
     paths:
@@ -117,14 +117,16 @@ jobs:
           provenance: true
 
       - name: Trivy Scan (Fail on HIGH/CRITICAL)
-        uses: aquasecurity/trivy-action@v0.24.0
+        uses: aquasecurity/trivy-action@0.20.0
         with:
           image-ref: product-service:${{ github.sha }}
           severity: CRITICAL,HIGH
           exit-code: 1
+          trivyignores: .trivyignore
+
 
       - name: Generate SARIF
-        uses: aquasecurity/trivy-action@v0.24.0
+        uses: aquasecurity/trivy-action@0.20.0
         with:
           image-ref: product-service:${{ github.sha }}
           format: sarif
