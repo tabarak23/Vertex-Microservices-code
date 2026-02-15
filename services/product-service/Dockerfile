@@ -1,14 +1,15 @@
 #build image
 FROM node:20-alpine3.21 AS base
 RUN apk update && apk upgrade --no-cache
-
+RUN rm -rf /usr/local/lib/node_modules/npm \
+    && rm -rf /usr/local/bin/npm \
+    && rm -rf /usr/local/bin/npx
 WORKDIR /build
 
 COPY package.json package-lock.json ./
 
 #production deps only
-RUN npm audit fix
-
+RUN npm ci
 
 #runtime image
 FROM node:20-alpine3.21
