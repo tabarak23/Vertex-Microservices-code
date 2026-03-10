@@ -1,3 +1,91 @@
+# Related Repositories
+
+This repository is part of a **complete end-to-end cloud native platform** built using multiple repositories.  
+Each repository has a specific responsibility in the overall system.
+
+---
+
+## Application Code & CI/CD (This Repository)
+
+Repository:  
+https://github.com/tabarak23/Vertex-Microservices-code
+
+This repository contains:
+
+- Microservices application source code
+- Dockerfiles for each service
+- GitHub Actions CI/CD pipelines
+- DevSecOps security scanning
+- Docker image build and push to Amazon ECR
+- OIDC authentication with AWS
+
+The CI/CD pipelines automatically build, scan, and publish container images whenever code is pushed to the `production` branch.
+
+---
+
+## Infrastructure as Code
+
+Repository:  
+https://github.com/tabarak23/Vertex-infra-terraform
+
+This repository provisions the complete AWS infrastructure using Terraform, including the VPC, Amazon EKS cluster, node groups, RDS databases, IAM roles, bastion host, and Secrets Manager.
+
+---
+
+## Kubernetes GitOps Deployment
+
+Repository:  
+https://github.com/tabarak23/Vertex-k8s-Gitops
+
+This repository contains Kubernetes manifests and deployment configurations used to deploy the microservices to the Kubernetes cluster using a GitOps workflow.  
+Currently this setup is being tested locally using **Kind** to understand Kubernetes networking, and it will soon be deployed to **Amazon EKS**.
+
+---
+
+# End-to-End Platform Workflow
+
+The complete platform follows this workflow:
+
+```
+Developer
+   │
+   │ Push Code
+   ▼
+Vertex-Microservices-code
+   │
+   │ CI Pipeline (GitHub Actions)
+   ▼
+Build • Test • Security Scans
+   │
+   ▼
+Docker Image Build
+   │
+   ▼
+Amazon ECR
+   │
+   ▼
+Vertex-k8s-Gitops
+   │
+   ▼
+Kubernetes Deployment
+   │
+   ▼
+Amazon EKS Cluster
+```
+
+This architecture separates responsibilities across repositories while enabling a **secure and scalable cloud-native deployment pipeline**.
+
+
+
+
+
+
+
+
+
+
+
+
 # Vertex Microservices CI/CD Pipeline
 
 ## Overview
