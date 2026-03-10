@@ -360,9 +360,5 @@ The pipelines implement modern DevSecOps practices:
 # Future Improvements
 
 Potential improvements include:
-
-- Kubernetes deployment pipeline
-- GitOps with ArgoCD
 - container image signing with Cosign
 - Slack notifications
-- automated deployment to EKS
