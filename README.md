@@ -5,7 +5,7 @@ Each repository has a specific responsibility in the overall system.
 
 ---
 
-## Application Code & CI/CD (This Repository)
+## Application Code & CI/CD 
 
 Repository:  
 https://github.com/tabarak23/Vertex-Microservices-code
